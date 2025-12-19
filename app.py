@@ -344,11 +344,14 @@ def create_app():
             category = request.form.get('category')
             canteen = request.form.get('canteen')
             image_url = request.form.get('image_url')
+            # Handle quantity, defaulting to 0 if not provided
+            quantity = int(request.form.get('quantity', 0))
             available = request.form.get('available') == 'on'
             
             new_item = MenuItem(
                 name=name, price=price, category=category,
-                canteen=canteen, image_url=image_url, available=available
+                canteen=canteen, image_url=image_url, 
+                quantity=quantity, available=available
             )
             db.session.add(new_item)
             db.session.commit()
@@ -368,6 +371,7 @@ def create_app():
         
         item.name = request.form.get('name')
         item.price = float(request.form.get('price'))
+        item.quantity = int(request.form.get('quantity', 0))
         item.category = request.form.get('category')
         item.canteen = request.form.get('canteen')
         item.image_url = request.form.get('image_url')

@@ -27,6 +27,7 @@ class MenuItem(db.Model):
     category = db.Column(db.String(50), nullable=False)
     canteen = db.Column(db.String(100), nullable=False, default="Main Canteen Ab1")
     available = db.Column(db.Boolean, default=True)
+    quantity = db.Column(db.Integer, default=0)
 
     def to_dict(self):
         return {
@@ -36,7 +37,8 @@ class MenuItem(db.Model):
             'image_url': self.image_url,
             'category': self.category,
             'canteen': self.canteen,
-            'available': self.available
+            'available': self.available,
+            'quantity': self.quantity
         }
 
 class Order(db.Model):

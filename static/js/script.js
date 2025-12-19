@@ -50,7 +50,13 @@ function renderMenu(items) {
                 <span class="card-category">${item.category}</span>
                 <h3 class="card-title">${item.name}</h3>
                 <div class="card-footer" id="item-footer-${item.id}">
-                    <span class="price">₹${item.price}</span>
+                    <div style="display:flex; flex-direction:column;">
+                        <span class="price">₹${item.price}</span>
+                        ${item.quantity > 0
+            ? `<span style="font-size: 0.8rem; color: #16a34a; font-weight: 600;">Only ${item.quantity} left</span>`
+            : `<span style="font-size: 0.8rem; color: #ef4444; font-weight: 600;">Out of Stock</span>`
+        }
+                    </div>
                     ${renderItemButton(item)}
                 </div>
             </div>
@@ -60,12 +66,18 @@ function renderMenu(items) {
 
 function renderItemButton(item) {
     const cartItem = cart[item.id];
+
+    if (item.quantity === 0) {
+        return `<button disabled class="add-btn" style="opacity: 0.5; cursor: not-allowed; background: #ccc;">SOLD OUT</button>`;
+    }
+
     if (cartItem) {
+        const isMaxed = cartItem.quantity >= item.quantity;
         return `
             <div class="qty-control-card">
                 <button onclick="removeFromCart(${item.id})">-</button>
                 <span>${cartItem.quantity}</span>
-                <button onclick="addToCart(${item.id})">+</button>
+                <button onclick="addToCart(${item.id})" ${isMaxed ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>+</button>
             </div>
         `;
     } else {
@@ -74,11 +86,20 @@ function renderItemButton(item) {
 }
 
 window.addToCart = function (id) {
+    const item = menuItems.find(i => i.id === id);
+    if (!item) return;
+
     if (cart[id]) {
-        cart[id].quantity++;
+        if (cart[id].quantity < item.quantity) {
+            cart[id].quantity++;
+        } else {
+            alert(`Sorry, only ${item.quantity} items available!`);
+            return;
+        }
     } else {
-        const item = menuItems.find(i => i.id === id);
-        cart[id] = { ...item, quantity: 1 };
+        if (item.quantity > 0) {
+            cart[id] = { ...item, quantity: 1 };
+        }
     }
     updateCartUI();
     updateCardUI(id); // New function to update specifically the card
