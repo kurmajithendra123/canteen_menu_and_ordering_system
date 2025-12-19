@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="canteen-selection-container animate-fade-in"
+    style="max-width: 900px; margin: 4rem auto; text-align: center;">
+    <h1 style="color: var(--primary-color); font-size: 2.5rem; margin-bottom: 3rem;">Select Your Canteen</h1>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+        <!-- Canteen 1 -->
+        <a href="/canteen/Main Canteen Ab1" class="canteen-card" style="text-decoration: none; color: inherit;">
+            <div
+                style="background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow); transition: transform 0.2s; cursor: pointer;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🍔</div>
+                <h2 style="color: var(--text-main);">Main Canteen Ab1</h2>
+                <p style="color: var(--text-muted);">The central hub for all your favorite meals.</p>
+            </div>
+        </a>
+
+        <!-- Canteen 2 -->
+        <a href="/canteen/MBA canteen" class="canteen-card" style="text-decoration: none; color: inherit;">
+            <div
+                style="background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow); transition: transform 0.2s; cursor: pointer;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">☕</div>
+                <h2 style="color: var(--text-main);">MBA Canteen</h2>
+                <p style="color: var(--text-muted);">Perfect for quick bites and coffee.</p>
+            </div>
+        </a>
+
+        <!-- Canteen 3 -->
+        <a href="/canteen/IT canteen AB3" class="canteen-card" style="text-decoration: none; color: inherit;">
+            <div
+                style="background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow); transition: transform 0.2s; cursor: pointer;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">🍜</div>
+                <h2 style="color: var(--text-main);">IT Canteen AB3</h2>
+                <p style="color: var(--text-muted);">Specific menu for the IT block.</p>
+            </div>
+        </a>
+    </div>
+</div>
+
+<style>
+    .canteen-card>div:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        border: 2px solid var(--primary-color);
+    }
+</style>
+{% endblock %}

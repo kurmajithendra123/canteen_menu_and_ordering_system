@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container" style="max-width: 400px; padding: 4rem 1rem;">
+    <div class="menu-card" style="padding: 2rem;">
+        <h1 class="section-title" style="margin-bottom: 1.5rem;">Login</h1>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <div style="background: #fee2e2; color: #b91c1c; padding: 0.75rem; border-radius: 0.5rem; margin-bottom: 1rem;">
+            {{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="/login">
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Username</label>
+                <input type="text" name="username" required
+                    style="width: 100%; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Password</label>
+                <input type="password" name="password" required
+                    style="width: 100%; padding: 0.75rem; border: 1px solid #e5e7eb; border-radius: 0.5rem;">
+            </div>
+
+            <button type="submit" class="checkout-btn" style="margin-top: 0;">Login</button>
+        </form>
+
+        <p style="text-align: center; margin-top: 1.5rem; color: var(--text-muted);">
+            Don't have an account? <a href="/signup" style="color: var(--primary-color); font-weight: 600;">Sign up</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

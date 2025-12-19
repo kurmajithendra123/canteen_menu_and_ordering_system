@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="container" style="padding: 2rem 0;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <div>
+            <h1 class="section-title" style="margin-bottom: 0.5rem;">Kitchen Dashboard</h1>
+            <div style="display: flex; gap: 1rem;">
+                <a href="/admin"
+                    style="text-decoration: none; color: var(--primary-color); font-weight: 700; border-bottom: 2px solid var(--primary-color);">Orders</a>
+                <a href="/admin/menu"
+                    style="text-decoration: none; color: var(--text-muted); font-weight: 500;">Menu</a>
+            </div>
+        </div>
+        <button onclick="location.reload()" class="add-btn">Refresh</button>
+    </div>
+
+    <div style="display: grid; gap: 1.5rem;">
+        {% for order in orders %}
+        <div class="menu-card"
+            style="padding: 1.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <h3 style="margin: 0;">Order #{{ order.id[:8] }}</h3>
+                <p style="color: var(--text-muted); font-size: 0.875rem;">{{ order.timestamp.strftime('%Y-%m-%d %H:%M')
+                    }} by {{ order.customer_name }}</p>
+                <div style="margin-top: 1rem;">
+                    {% for item in order.items %}
+                    <span
+                        style="display: inline-block; background: #f3f4f6; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.875rem; margin-right: 0.5rem; margin-bottom: 0.5rem;">
+                        {{ item.quantity }}x {{ item.item_name }}
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div
+                style="text-align: right; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end;">
+                <div style="font-size: 1.25rem; font-weight: 700;">₹{{ order.total_amount }}</div>
+
+                <div style="margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <span class="status-badge" id="status-{{ order.id }}">{{ order.status }}</span>
+                    <select onchange="updateStatus('{{ order.id }}', this.value)"
+                        style="padding: 0.5rem; border-radius: 0.5rem; border: 1px solid #e5e7eb;">
+                        <option value="Received" {% if order.status=='Received' %}selected{% endif %}>Received</option>
+                        <option value="Preparing" {% if order.status=='Preparing' %}selected{% endif %}>Preparing
+                        </option>
+                        <option value="Ready" {% if order.status=='Ready' %}selected{% endif %}>Ready</option>
+                        <option value="Completed" {% if order.status=='Completed' %}selected{% endif %}>Completed
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div style="text-align: center; padding: 4rem; color: var(--text-muted);">
+            No active orders.
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<script>
+    async function updateStatus(orderId, newStatus) {
+        try {
+            const response = await fetch(`/api/admin/order/${orderId}/status`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: newStatus })
+            });
+
+            if (response.ok) {
+                document.getElementById(`status-${orderId}`).innerText = newStatus;
+                // Optional: Show success toast
+            } else {
+                alert('Failed to update status');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error communicating with server');
+        }
+    }
+
+    // Auto-refresh every 30 seconds
+    setTimeout(() => location.reload(), 30000);
+</script>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="success-container animate-fade-in">
+    <div
+        style="background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow); max-width: 600px; margin: 0 auto;">
+
+        <div style="color: var(--secondary-color); margin-bottom: 1rem;">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+        </div>
+
+        <h1 style="color: var(--text-main); margin-bottom: 0.5rem;">Order Placed Successfully!</h1>
+        <p style="color: var(--text-muted);">Order ID: #{{ order.id[:8] }}</p>
+
+        <div class="qr-code">
+            {% if order.qr_code_path %}
+            <img src="{{ url_for('static', filename=order.qr_code_path.replace('static/', '')) }}" alt="Order QR Code"
+                width="350" height="350">
+            {% else %}
+            <p>No QR Code</p>
+            {% endif %}
+        </div>
+
+        <div style="margin: 2rem 0;">
+            <p><strong>Status:</strong> <span class="status-badge">{{ order.status }}</span></p>
+            <p style="margin-top: 0.5rem;">Total Amount: <strong style="color: var(--primary-color);">₹{{
+                    order.total_amount }}</strong></p>
+        </div>
+
+        <div style="text-align: left; background: #f9fafb; padding: 1rem; border-radius: 0.5rem; margin-top: 1rem;">
+            <h3 style="margin-top: 0;">Order Summary</h3>
+            <ul style="list-style: none; padding: 0;">
+                {% for item in order.items %}
+                <li
+                    style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px dashed #e5e7eb;">
+                    <span>{{ item.quantity }}x {{ item.item_name }}</span>
+                    <span>₹{{ item.price_at_time * item.quantity }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem;">
+            <!-- Visible Download Button -->
+            <a href="/{{ order.qr_code_path }}" download="order_{{ order.id }}.png" class="add-btn"
+                style="background-color: var(--primary-color); text-decoration: none; text-align: center;">
+                Download QR Code
+            </a>
+
+            <a href="/" class="add-btn" style="text-decoration: none; background-color: #666; text-align: center;">Back
+                to Menu</a>
+
+            <!-- Hidden link for auto-trigger -->
+            <a id="qr-download-link" href="/{{ order.qr_code_path }}" download="order_{{ order.id }}.png"
+                style="display: none;"></a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Auto-download QR code
+    document.addEventListener('DOMContentLoaded', function () {
+        const downloadLink = document.getElementById('qr-download-link');
+        if (downloadLink) {
+            // Attempt auto-download
+            setTimeout(() => {
+                downloadLink.click();
+            }, 500);
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# Flask
+instance/
+.webassets-cache
+.env
+
+# Virtual Environment
+venv/
+env/
+
+# VSCode
+.vscode/
+
+# Project Specific
+debug_db.py
+static/qrcodes/*
+!static/qrcodes/.gitkeep
