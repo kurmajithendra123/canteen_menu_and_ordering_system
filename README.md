@@ -44,5 +44,24 @@ The absence of a digital menu and ordering system in college canteens leads to l
 *   `static/`: CSS styling, JavaScript logic, and generated QR codes.
 
 ## Login Details 🔑
-*   **Admin**: `admin` / `admin123`
+*   **Admin**: admin and password is admin123
+* admin can manage the food items according to the quantity(updated the quatity part).
 *   **Students**: Sign up nicely!
+
+## Deployed url: https://canteen-menu-and-ordering-system.onrender.com
+* Deployed it on render
+
+## css and style:
+*  Css and Style of the website taken from the myamrita portal because it is very easy while integrating with myamrita website.(This is the real problem that had been there in the collage.)
+
+
+## Another idea to be developed:
+* We can develop this according to the time slot, in each time this many can go like wise if we do that, there are some other problem will be occured.
+* CASE 1: if means food was not nice then definetly the student will go the canteen definetly(at the same time canteen has no available slots to book). What is the purpose of keeping time slots.
+* CASE 2: suppose student have a project review at 1pm and it took one hour to complete. By 2pm mess will be closed then definetly every student will choose to go to canteen. if slots are full and items are available (canteen is occupied but items are available).
+* CASE 3: some may work for projects in the canteen.
+
+* BY seeing this many cons i haven't included time slots. (Time slots will only work for the restaurents not for the collage canteens).
+
+
+## Total purpose of this project is to reduce the time spent in the queues to collect the food ##
