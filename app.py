@@ -165,6 +165,14 @@ def create_app():
                 menu_item = MenuItem.query.get(item_id)
                 if menu_item:
                     qty = int(item_data['quantity'])
+                    
+                    # Stock Check (Backend Enforcement)
+                    if menu_item.quantity < qty:
+                         return jsonify({'success': False, 'error': f'Not enough stock for {menu_item.name}'}), 400
+                    
+                    # Decrement Stock
+                    menu_item.quantity -= qty
+                    
                     price = menu_item.price
                     total_amount += price * qty
                     
