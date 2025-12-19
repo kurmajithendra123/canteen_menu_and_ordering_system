@@ -9,9 +9,14 @@ from datetime import datetime
 
 def create_app():
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///canteen.db'
+    # Use DATABASE_URL from environment (for Render/Postgres) or fallback to local SQLite
+    database_url = os.environ.get('DATABASE_URL', 'sqlite:///canteen.db')
+    if database_url and database_url.startswith("postgres://"):
+        database_url = database_url.replace("postgres://", "postgresql://", 1)
+    
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_url
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SECRET_KEY'] = 'your-secret-key-here' # Needed for session/flash
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your-secret-key-here')
     
     os.makedirs(os.path.join(app.root_path, 'static', 'qrcodes'), exist_ok=True)
 
