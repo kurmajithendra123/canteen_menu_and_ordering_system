@@ -31,7 +31,29 @@ def create_app():
         return User.query.get(int(user_id))
 
     with app.app_context():
+        # Create tables
         db.create_all()
+        
+        # Check and Seed Admin User (Fix for Cloud Deployment)
+        if not User.query.filter_by(username='admin').first():
+            print("Creating default admin user...")
+            admin_user = User(username='admin', is_admin=True)
+            admin_user.set_password('admin123')
+            db.session.add(admin_user)
+            db.session.commit()
+            
+        # Optional: Seed Menu Items if empty
+        if not MenuItem.query.first():
+             print("Seeding default menu items...")
+             # Basic seed for demo
+             canteens = ["Main Canteen Ab1", "MBA canteen", "IT canteen AB3"]
+             items = [
+                 MenuItem(name="Veg Burger", price=50.0, category="Snacks", image_url="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=500&auto=format&fit=crop&q=60", canteen=canteens[0], quantity=50),
+                 MenuItem(name="Cold Coffee", price=40.0, category="Beverages", image_url="https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=500&auto=format&fit=crop&q=60", canteen=canteens[1], quantity=100),
+                 MenuItem(name="Masala Dosa", price=45.0, category="Breakfast", image_url="https://images.unsplash.com/photo-1668236540372-969c36209d84?w=500&auto=format&fit=crop&q=60", canteen=canteens[2], quantity=30),
+             ]
+             db.session.bulk_save_objects(items)
+             db.session.commit()
 
     @app.route('/')
     def index():
