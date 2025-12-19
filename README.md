@@ -1,14 +1,24 @@
-# College Canteen Ordering System
+# CampusCanteen - College Canteen Ordering System 🍔
 
-A web-based ordering system to reduce queues in college canteens.
+A full-stack web application designed to reduce queues and streamline food ordering in college canteens.
 
-## Features
-*   **Digital Menu**: Browse items with images and prices.
-*   **Cart & Checkout**: Add items, adjust quantity, and "pay" (mock).
-*   **QR Code Verification**: Generates a unique QR code for every order.
-*   **Admin Dashboard**: Manage order status (Received -> Completed).
+The absence of a digital menu and ordering system in college canteens leads to long queues, time wastage, and inefficient order management. This project solves that by allowing students to order from their phones and pick up when ready.
 
-## Setup & Run
+## Features ✨
+
+### For Students 🎓
+*   **Digital Menu**: Browse authentic items with images, prices, and stock status.
+*   **Stock Tracking**: See real-time availability ("Only X left" or "Out of Stock").
+*   **Cart & Checkout**: Add items, adjust quantities, and place orders directly.
+*   **QR Code Receipts**: Receive a unique QR code for every successful order.
+
+### For Admin/Staff 👨‍🍳
+*   **Admin Dashboard**: Manage incoming orders and update status (Received -> Ready -> Completed).
+*   **Menu Management**: Add, Edit, and Delete menu items.
+*   **Inventory Control**: Set quantity/stock levels for each item.
+*   **Multi-Canteen Support**: Manage menus for different canteens (Main, MBA, IT Block).
+
+## Setup & Run 🚀
 
 1.  **Install Dependencies**:
     ```bash
@@ -19,7 +29,7 @@ A web-based ordering system to reduce queues in college canteens.
     ```bash
     python seed.py
     ```
-    (This creates `canteen.db` and adds sample menu items).
+    *(Creates `instance/canteen.db` and populates it with sample data).*
 
 3.  **Run the App**:
     ```bash
@@ -27,14 +37,12 @@ A web-based ordering system to reduce queues in college canteens.
     ```
     Access the app at `http://127.0.0.1:5000`.
 
-## Usage Flow
-1.  **Student**: Opens homepage (`/`), adds items to cart, clicks "Pay & Place Order".
-2.  **Confirmation**: Sees "Order Placed Successfully" screen with a **QR Code**.
-3.  **Pickup**: Shows QR code at the counter.
-4.  **Admin/Staff**: Opens `/admin` to see the order. Changing status to "Ready" or "Completed" updates the system.
+## Project Structure 📂
+*   `app.py`: Main Flask application (Routes & Logic).
+*   `models.py`: Database schema (User, Menu, Order).
+*   `templates/`: HTML files (Jinja2).
+*   `static/`: CSS styling, JavaScript logic, and generated QR codes.
 
-## Project Structure
-*   `app.py`: Main Flask application and API.
-*   `models.py`: Database schema.
-*   `static/`: CSS, JS, and generated QR codes.
-*   `templates/`: HTML files.
+## Login Details 🔑
+*   **Admin**: `admin` / `admin123`
+*   **Students**: Sign up nicely!
